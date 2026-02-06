@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import { BookController } from '../controllers/bookController';
+import { authenticate, requireRole } from '../middleware/auth';
 
 const router = Router();
+router.use(authenticate);
 
-// Both admin and reviewer can access books
-router.get('/', BookController.list);
-router.post('/', BookController.create);
-router.get('/:id', BookController.getById);
-router.patch('/:id', BookController.update);
-router.delete('/:id', BookController.delete);
+router.get('/', requireRole(['admin', 'reviewer']), BookController.list);
+router.post('/', requireRole(['admin', 'reviewer']), BookController.create);
+router.get('/:id', requireRole(['admin', 'reviewer']), BookController.getById);
+router.patch('/:id', requireRole(['admin', 'reviewer']), BookController.update);
+router.delete('/:id', requireRole(['admin', 'reviewer']), BookController.delete);
 
 export { router as booksRouter };
