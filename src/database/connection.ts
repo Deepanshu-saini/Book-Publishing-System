@@ -1,10 +1,16 @@
 import mongoose from 'mongoose';
+import { config } from '../config';
+import { logger } from '../utils/logger';
 
 export const connectDatabase = async (): Promise<void> => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/book-publishing");
-    } catch (error) {
-    console.log("failed to connect to db");
+    await mongoose.connect(config.mongodbUri);
+    logger.info('Connected to MongoDB', { uri: config.mongodbUri.replace(/\/\/.*@/, '//***:***@') });
+  } catch (error) {
+    logger.error('Failed to connect to MongoDB', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      uri: config.mongodbUri.replace(/\/\/.*@/, '//***:***@'),
+    });
     process.exit(1);
   }
 };
@@ -12,7 +18,10 @@ export const connectDatabase = async (): Promise<void> => {
 export const disconnectDatabase = async (): Promise<void> => {
   try {
     await mongoose.disconnect();
+    logger.info('Disconnected from MongoDB');
   } catch (error) {
-    console.log('Error disconnecting from MongoDB');
+    logger.error('Error disconnecting from MongoDB', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
   }
 };
