@@ -8,6 +8,7 @@ import { authRouter } from './routes/auth';
 import { requestLogger } from './middleware/requestLogger';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
+import { seedRouter } from './routes/seed';
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/books', booksRouter);
 app.use('/api/audits', auditsRouter);
+app.use('/api', seedRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
