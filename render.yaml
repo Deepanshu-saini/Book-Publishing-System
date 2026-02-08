@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: book-publishing-api
+    env: node
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: LOG_LEVEL
+        value: info
+      - key: LOG_TRANSPORT
+        value: file
+      - key: LOG_FILE_PATH
+        value: ./logs/app.log
