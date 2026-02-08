@@ -6,7 +6,7 @@ import { config } from '../config';
 
 const router = Router();
 
-router.post('/seed', async (req: Request, res: Response) => {
+router.get('/seed', async (req: Request, res: Response) => {
   try {
 
     const results = {

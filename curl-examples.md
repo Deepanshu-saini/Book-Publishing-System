@@ -5,6 +5,11 @@
 1. Start the server: `npm run dev`
 2. Run seed script: `npm run seed`
 
+## Live Render Seeding
+```bash
+curl -X GET "https://book-publishing-system-t9vn.onrender.com/api/seed"
+```
+
 ## Authentication
 
 ### Login as Admin
